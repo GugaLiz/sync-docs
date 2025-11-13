@@ -32,7 +32,7 @@ class KDocsAutomation:
 
             # 清空原有内容
             content_area = self.wait.until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, ".kdocs-editor-content"))
+                EC.presence_of_element_located((By.CSS_SELECTOR, ".text-block-content-container"))
             )
             content_area.clear()
 
