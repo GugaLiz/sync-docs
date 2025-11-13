@@ -1,0 +1,31 @@
+# .github/workflows/sync-readme-to-kdocs.yml
+name: Sync README to KDocs
+
+on:
+  push:
+    paths:
+      - 'README.md'
+    branches: [ main, master ]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check README changes
+        id: check_changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            readme: README.md
+
+      - name: Sync to KDocs
+        if: steps.check_changes.outputs.readme == 'true'
+        run: |
+          # 调用同步脚本
+          python scripts/sync_kdocs.py
+        env:
+          KDOCS_TOKEN: ${{ secrets.KDOCS_TOKEN }}
+          DOCUMENT_ID: 'cjpVZz0ASxGp'

@@ -1,0 +1,9 @@
+{
+  "name": "sync-docs",
+  "version": "1.0.0",
+  "description": "测试仓库readme更新自动同步到在线文档",
+  "main": "index.js",
+  "repository": "https://github.com/GugaLiz/sync-docs",
+  "author": "GugaLiz",
+  "license": "MIT"
+}
