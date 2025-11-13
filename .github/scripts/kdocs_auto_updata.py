@@ -21,7 +21,7 @@ class KDocsAutomation:
             self.driver.get("https://365.kdocs.cn/l/cjpVZz0ASxGp")
 
             # 等待页面加载
-            time.sleep(5)
+            time.sleep(15)
 
             # 这里需要根据实际页面结构调整选择器
             # 点击编辑按钮
@@ -37,7 +37,7 @@ class KDocsAutomation:
             content_area.clear()
 
             # 输入新内容
-            content_area.send_keys(content)
+            content_area.send_keys("xin nei ron")
 
             # 保存
             save_button = self.driver.find_element(By.CSS_SELECTOR, "[data-testid='save-button']")
