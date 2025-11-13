@@ -7,7 +7,7 @@ import requests
 import sys
 
 def update_kdocs():
-    access_token = os.getenv('KDOCS_ACCESS_TOKEN')
+    access_token = "jVSbQeGbpmBNsAFibSEaAFdAwZuKoYWH"
     document_id = 'cjpVZz0ASxGp'
 
     if not access_token:
