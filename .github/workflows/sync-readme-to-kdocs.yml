@@ -25,7 +25,7 @@ jobs:
         if: steps.check_changes.outputs.readme == 'true'
         run: |
           # 调用同步脚本
-          python scripts/sync_kdocs.py
+          python .github/scripts/sync_kdocs.py
         env:
           KDOCS_TOKEN: ${{ secrets.KDOCS_TOKEN }}
           DOCUMENT_ID: 'cjpVZz0ASxGp'
