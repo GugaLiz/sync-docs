@@ -25,7 +25,7 @@ jobs:
         if: steps.check_changes.outputs.readme == 'true'
         run: |
           # 调用同步脚本
-          python .github/scripts/kdocs_auto_update.py
+          python .github/scripts/kdocs_auto_updata.py
         env:
           KDOCS_TOKEN: ${{ secrets.KDOCS_TOKEN }}
           DOCUMENT_ID: 'cjpVZz0ASxGp'
