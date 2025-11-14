@@ -1,5 +1,5 @@
-# .github/workflows/chrome-fix.yml
-name: Chrome Fix Sync
+# .github/workflows/sync-readme-to-kdocs.yml
+name: Sync README to KDocs
 
 on:
   push:
@@ -14,40 +14,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Check README changes
+        id: check_changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            readme: README.md
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Install Chrome and dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget curl unzip
-          
-          # 安装Chrome
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          
-          # 安装ChromeDriver
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*}")
-          wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+          python -m pip install --upgrade pip
+          pip install requests selenium webdriver-manager
 
-      - name: Install Python packages
+      - name: Sync to KDocs
+        if: steps.check_changes.outputs.readme == 'true'
         run: |
-          pip install selenium chromedriver-autoinstaller
-
-      - name: Check installations
-        run: |
-          google-chrome --version
-          chromedriver --version
-          python --version
-
-      - name: Run fixed script
-        run: |
-          python .github/scripts/kdocs_chrome_fix.py
+          # 调用同步脚本
+          python .github/scripts/kdocs_selenium_vnc.py
+        env:
+          KDOCS_ACCESS_TOKEN: ${{ secrets.KDOCS_TOKEN }}
+          DOCUMENT_ID: 'cjpVZz0ASxGp'
